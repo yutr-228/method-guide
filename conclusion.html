@@ -223,6 +223,170 @@
   font-weight: normal !important;
   letter-spacing: normal !important;
 }
+    /* ===== МОБИЛЬНАЯ ВЕРСИЯ (адаптивность) ===== */
+@media (max-width: 1024px) {
+  .layout {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translateX(-100%);
+    z-index: 1000;
+    padding: 20px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    background: rgba(8,12,26,0.98);
+    backdrop-filter: blur(20px);
+  }
+  
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  
+  .menu-toggle {
+    display: block;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1001;
+  }
+  
+  .content, .main {
+    padding: 80px 15px 30px;
+    width: 100%;
+  }
+  
+  .hero {
+    padding: 25px 20px;
+  }
+  
+  .hero h2, .hero h1 {
+    font-size: 28px;
+  }
+  
+  .hero p {
+    font-size: 16px;
+  }
+  
+  .section {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .section h2 {
+    font-size: 24px;
+  }
+  
+  .section p {
+    font-size: 16px;
+  }
+  
+  .step {
+    padding: 16px;
+  }
+  
+  .grid-2, .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .custom-table {
+    font-size: 13px;
+  }
+  
+  .custom-table th, .custom-table td {
+    padding: 10px 8px;
+  }
+  
+  .code-block, .prompt-block, div[style*="background: rgba(0,0,0,0.4)"] {
+    font-size: 13px;
+    padding: 12px;
+  }
+  
+  .copy-btn, .copy-prompt-btn {
+    padding: 3px 8px;
+    font-size: 10px;
+  }
+  
+  .note {
+    font-size: 15px;
+    padding: 14px;
+  }
+  
+  .brand {
+    font-size: 20px;
+  }
+  
+  .brand-sub {
+    font-size: 12px;
+  }
+  
+  .nav a, .nav-link, .sub-link, .sub-sub-link {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+  
+  .sub-link {
+    padding-left: 20px;
+  }
+  
+  .sub-sub-link {
+    padding-left: 30px;
+  }
+  
+  .image-placeholder {
+    min-height: 150px;
+    font-size: 14px;
+    padding: 15px;
+  }
+  
+  .table-wrap {
+    margin: 16px 0;
+  }
+  
+  footer, .footer {
+    font-size: 12px;
+    padding: 15px;
+  }
+}
+
+/* Для очень маленьких экранов (телефоны до 480px) */
+@media (max-width: 480px) {
+  .hero h2, .hero h1 {
+    font-size: 22px;
+  }
+  
+  .section h2 {
+    font-size: 20px;
+  }
+  
+  .section h3 {
+    font-size: 18px;
+  }
+  
+  .step-number {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+  
+  .custom-table th, .custom-table td {
+    padding: 8px 5px;
+    font-size: 11px;
+  }
+  
+  .code-block, .prompt-block {
+    font-size: 11px;
+  }
+  
+  .content, .main {
+    padding: 70px 12px 20px;
+  }
+}
   </style>
 </head>
 <body>
