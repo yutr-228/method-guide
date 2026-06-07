@@ -1076,6 +1076,17 @@ body.light-theme .nav-page-btn[style*="pointer-events: none"] {
     font-size: 11px !important;
   }
 }
+    /* Светлая тема для кнопок навигации */
+body.light-theme .nav-page-btn {
+  background: rgba(74, 126, 207, 0.1) !important;
+  border-color: #aad0f0 !important;
+  color: #1a4a7a !important;
+}
+
+body.light-theme .nav-page-btn:hover {
+  background: #4a7ecf !important;
+  color: white !important;
+}
   </style>
 </head>
 <body>
@@ -1804,18 +1815,19 @@ End Sub
   }
 </script>
 <script>
-  // Порядок страниц методички
+ 
+  // Порядок страниц методички (должен быть одинаков на всех страницах)
   const pages = [
     "index.html",
     "introduction.html",
+    "glossary.html",
+    "shortcuts.html",
     "wordmacros.html",
     "yandex.html",
     "qwen.html",
     "vscode.html",
-    "glossary.html",
-    "mistakes.html",
-    "quiz.html",
-    "conclusion.html"
+    "conclusion.html",
+    "faq.html"
   ];
   
   const currentPage = window.location.pathname.split('/').pop();
@@ -1831,6 +1843,7 @@ End Sub
       prevLink.style.opacity = '0.5';
       prevLink.style.pointerEvents = 'none';
       prevLink.style.cursor = 'default';
+      prevLink.removeAttribute('href');
     }
   }
   
@@ -1841,6 +1854,7 @@ End Sub
       nextLink.style.opacity = '0.5';
       nextLink.style.pointerEvents = 'none';
       nextLink.style.cursor = 'default';
+      nextLink.removeAttribute('href');
     }
   }
 </script>
