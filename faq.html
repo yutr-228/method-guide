@@ -214,6 +214,42 @@ body.light-theme .nav-page-btn:hover {
   background: #4a7ecf !important;
   color: white !important;
 }
+    .nav-page-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 16px;
+  transition: 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+}
+
+.nav-page-btn:hover:not(:disabled) {
+  background: var(--accent);
+  transform: translateY(-2px);
+}
+
+.nav-page-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Светлая тема */
+body.light-theme .nav-page-btn {
+  background: rgba(74, 126, 207, 0.1);
+  border-color: #aad0f0;
+  color: #1a4a7a;
+}
+
+body.light-theme .nav-page-btn:hover:not(:disabled) {
+  background: #4a7ecf;
+  color: white;
+}
   </style>
 </head>
 <body>
