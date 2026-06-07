@@ -1296,18 +1296,18 @@ body.light-theme .nav-page-btn:hover {
 </div>
 
 <script>
-  // Порядок страниц методички (должен быть одинаков на всех страницах)
-   const pages = [
-    "index.html",
-    "introduction.html",
-    "glossary.html",
-    "shortcuts.html",
-    "wordmacros.html",
-    "yandex.html",
-    "qwen.html",
-    "vscode.html",
-    "conclusion.html",
-    "faq.html"
+  // Порядок страниц методички (строго по меню)
+  const pages = [
+    "index.html",           // 1. Главная
+    "introduction.html",    // 2. Введение
+    "glossary.html",        // 3. Глоссарий
+    "shortcuts.html",       // 4. Горячие клавиши
+    "wordmacros.html",      // 5. Макросы Word
+    "yandex.html",          // 6. Яндекс Алиса Про
+    "qwen.html",            // 7. Qwen
+    "vscode.html",          // 8. Visual Studio Code
+    "conclusion.html",      // 9. Заключение
+    "faq.html"              // 10. FAQ
   ];
   
   const currentPage = window.location.pathname.split('/').pop();
@@ -1318,7 +1318,9 @@ body.light-theme .nav-page-btn:hover {
   
   if (prevBtn) {
     if (currentIndex > 0) {
-      prevBtn.addEventListener('click', function() {
+      const newPrevBtn = prevBtn.cloneNode(true);
+      prevBtn.parentNode.replaceChild(newPrevBtn, prevBtn);
+      newPrevBtn.addEventListener('click', function() {
         window.location.href = pages[currentIndex - 1];
       });
     } else {
@@ -1330,7 +1332,9 @@ body.light-theme .nav-page-btn:hover {
   
   if (nextBtn) {
     if (currentIndex < pages.length - 1 && currentIndex !== -1) {
-      nextBtn.addEventListener('click', function() {
+      const newNextBtn = nextBtn.cloneNode(true);
+      nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
+      newNextBtn.addEventListener('click', function() {
         window.location.href = pages[currentIndex + 1];
       });
     } else {
@@ -1340,6 +1344,5 @@ body.light-theme .nav-page-btn:hover {
     }
   }
 </script>
-
 </body>
 </html>
