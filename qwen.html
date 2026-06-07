@@ -1101,6 +1101,17 @@ body.light-theme .nav-page-btn[style*="pointer-events: none"] {
     font-size: 11px !important;
   }
 }
+    /* Светлая тема для кнопок навигации */
+body.light-theme .nav-page-btn {
+  background: rgba(74, 126, 207, 0.1) !important;
+  border-color: #aad0f0 !important;
+  color: #1a4a7a !important;
+}
+
+body.light-theme .nav-page-btn:hover {
+  background: #4a7ecf !important;
+  color: white !important;
+}
   </style>
 </head>
 <body>
@@ -2304,19 +2315,30 @@ body.light-theme .nav-page-btn[style*="pointer-events: none"] {
     });
   }
 </script>
+
+   <!-- Кнопки навигации между страницами -->
+<div class="page-navigation" style="display: flex; justify-content: space-between; align-items: center; gap: 20px; margin: 40px 0 30px; flex-wrap: wrap;">
+  <a href="#" id="prev-page" class="nav-page-btn" style="background: rgba(255,255,255,0.08); border: 1px solid var(--border); border-radius: 30px; padding: 10px 20px; text-decoration: none; color: var(--text); font-weight: bold; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px;">
+    ← Предыдущая страница
+  </a>
+  <a href="#" id="next-page" class="nav-page-btn" style="background: rgba(255,255,255,0.08); border: 1px solid var(--border); border-radius: 30px; padding: 10px 20px; text-decoration: none; color: var(--text); font-weight: bold; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px;">
+    Следующая страница →
+  </a>
+</div>
+
 <script>
-  // Порядок страниц методички
+  // Порядок страниц методички (должен быть одинаков на всех страницах)
   const pages = [
     "index.html",
     "introduction.html",
+    "glossary.html",
+    "shortcuts.html",
     "wordmacros.html",
     "yandex.html",
     "qwen.html",
     "vscode.html",
-    "glossary.html",
-    "mistakes.html",
-    "quiz.html",
-    "conclusion.html"
+    "conclusion.html",
+    "faq.html"
   ];
   
   const currentPage = window.location.pathname.split('/').pop();
@@ -2332,6 +2354,7 @@ body.light-theme .nav-page-btn[style*="pointer-events: none"] {
       prevLink.style.opacity = '0.5';
       prevLink.style.pointerEvents = 'none';
       prevLink.style.cursor = 'default';
+      prevLink.removeAttribute('href');
     }
   }
   
@@ -2342,8 +2365,10 @@ body.light-theme .nav-page-btn[style*="pointer-events: none"] {
       nextLink.style.opacity = '0.5';
       nextLink.style.pointerEvents = 'none';
       nextLink.style.cursor = 'default';
+      nextLink.removeAttribute('href');
     }
   }
+</script>
 </script>
 </body>
 </html>
