@@ -578,19 +578,19 @@ body.light-theme .nav-page-btn:hover {
       }
     });
   })();
-   <!-- Кнопки навигации между страницами -->
+<!-- Кнопки навигации между страницами -->
 <div class="page-navigation" style="display: flex; justify-content: space-between; align-items: center; gap: 20px; margin: 40px 0 30px; flex-wrap: wrap;">
-  <a href="#" id="prev-page" class="nav-page-btn" style="background: rgba(255,255,255,0.08); border: 1px solid var(--border); border-radius: 30px; padding: 10px 20px; text-decoration: none; color: var(--text); font-weight: bold; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px;">
+  <button id="prev-page" class="nav-page-btn" style="background: rgba(255,255,255,0.08); border: 1px solid var(--border); border-radius: 30px; padding: 10px 20px; cursor: pointer; font-family: inherit; font-size: inherit; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; color: var(--text);">
     ← Предыдущая страница
-  </a>
-  <a href="#" id="next-page" class="nav-page-btn" style="background: rgba(255,255,255,0.08); border: 1px solid var(--border); border-radius: 30px; padding: 10px 20px; text-decoration: none; color: var(--text); font-weight: bold; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px;">
+  </button>
+  <button id="next-page" class="nav-page-btn" style="background: rgba(255,255,255,0.08); border: 1px solid var(--border); border-radius: 30px; padding: 10px 20px; cursor: pointer; font-family: inherit; font-size: inherit; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; color: var(--text);">
     Следующая страница →
-  </a>
+  </button>
 </div>
 
 <script>
   // Порядок страниц методички (должен быть одинаков на всех страницах)
-  const pages = [
+   const pages = [
     "index.html",
     "introduction.html",
     "glossary.html",
@@ -606,28 +606,30 @@ body.light-theme .nav-page-btn:hover {
   const currentPage = window.location.pathname.split('/').pop();
   const currentIndex = pages.indexOf(currentPage);
   
-  const prevLink = document.getElementById('prev-page');
-  const nextLink = document.getElementById('next-page');
+  const prevBtn = document.getElementById('prev-page');
+  const nextBtn = document.getElementById('next-page');
   
-  if (prevLink) {
+  if (prevBtn) {
     if (currentIndex > 0) {
-      prevLink.href = pages[currentIndex - 1];
+      prevBtn.addEventListener('click', function() {
+        window.location.href = pages[currentIndex - 1];
+      });
     } else {
-      prevLink.style.opacity = '0.5';
-      prevLink.style.pointerEvents = 'none';
-      prevLink.style.cursor = 'default';
-      prevLink.removeAttribute('href');
+      prevBtn.style.opacity = '0.5';
+      prevBtn.style.cursor = 'default';
+      prevBtn.disabled = true;
     }
   }
   
-  if (nextLink) {
+  if (nextBtn) {
     if (currentIndex < pages.length - 1 && currentIndex !== -1) {
-      nextLink.href = pages[currentIndex + 1];
+      nextBtn.addEventListener('click', function() {
+        window.location.href = pages[currentIndex + 1];
+      });
     } else {
-      nextLink.style.opacity = '0.5';
-      nextLink.style.pointerEvents = 'none';
-      nextLink.style.cursor = 'default';
-      nextLink.removeAttribute('href');
+      nextBtn.style.opacity = '0.5';
+      nextBtn.style.cursor = 'default';
+      nextBtn.disabled = true;
     }
   }
 </script>
