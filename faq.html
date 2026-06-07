@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ — Часто задаваемые вопросы</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --bg2: #121933;
+      --card: rgba(255,255,255,0.08);
+      --accent: #6d8cff;
+      --accent-2: #8b5cf6;
+      --text: #e5e7eb;
+      --muted: #c7d2fe;
+      --border: rgba(255,255,255,0.12);
+      --shadow: 0 20px 50px rgba(0,0,0,0.25);
+      --radius: 24px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: radial-gradient(circle at top left, #1d2a57 0%, var(--bg) 45%), linear-gradient(135deg, var(--bg), var(--bg2));
+      color: var(--text);
+      line-height: 1.7;
+    }
+    .menu-toggle {
+      display: none;
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 1001;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: white;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      box-shadow: var(--shadow);
+    }
+    .layout { display: flex; min-height: 100vh; }
+    .sidebar {
+      width: 320px;
+      background: rgba(8,12,26,0.92);
+      backdrop-filter: blur(16px);
+      padding: 30px 22px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      border-right: 1px solid var(--border);
+      transition: transform 0.3s ease;
+    }
+    .sidebar h1 { font-size: 22px; margin-bottom: 12px; }
+    .sidebar p { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+    .nav-title { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #93c5fd; margin: 22px 0 10px; }
+    .nav a {
+      display: block;
+      color: #e2e8f0;
+      text-decoration: none;
+      padding: 11px 14px;
+      border-radius: 14px;
+      margin-bottom: 8px;
+      transition: 0.2s;
+      font-size: 15px;
+    }
+    .nav a:hover, .nav a.active { background: var(--card); transform: translateX(4px); }
+    .content { flex: 1; padding: 40px; max-width: 1000px; margin: 0 auto; }
+    .hero {
+      background: linear-gradient(135deg, rgba(109,140,255,0.22), rgba(139,92,246,0.18));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 40px;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+    .hero h2 { font-size: 36px; margin-bottom: 16px; }
+    .hero p { font-size: 18px; color: var(--muted); }
+    .section {
+      background: var(--card);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 30px;
+      margin-bottom: 28px;
+    }
+    .section h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: var(--muted);
+      border-left: 4px solid var(--accent);
+      padding-left: 16px;
+    }
+    .faq-item {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: 0.2s;
+    }
+    .faq-item:hover {
+      background: rgba(255,255,255,0.08);
+    }
+    .faq-question {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--accent);
+      margin-bottom: 12px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-question::after {
+      content: "▼";
+      font-size: 12px;
+      color: var(--muted);
+      transition: transform 0.2s;
+    }
+    .faq-item.open .faq-question::after {
+      transform: rotate(180deg);
+    }
+    .faq-answer {
+      display: none;
+      padding-top: 12px;
+      color: var(--muted);
+      line-height: 1.6;
+      border-top: 1px solid var(--border);
+    }
+    .faq-item.open .faq-answer {
+      display: block;
+    }
+    .faq-category {
+      margin-top: 30px;
+    }
+    .faq-category:first-child {
+      margin-top: 0;
+    }
+    .note {
+      background: rgba(245,158,11,0.14);
+      border-left: 6px solid #f59e0b;
+      border-radius: 18px;
+      padding: 18px 20px;
+      margin-top: 20px;
+    }
+    .footer { text-align: center; color: var(--muted); font-size: 14px; padding: 20px 0 30px; }
+    
+    @media (max-width: 980px) {
+      .menu-toggle { display: block; }
+      .layout { flex-direction: column; }
+      .sidebar { position: fixed; left: 0; top: 0; width: 300px; z-index: 1000; transform: translateX(-100%); height: 100vh; }
+      .sidebar.open { transform: translateX(0); }
+      .content { padding: 80px 18px 20px; }
+      .hero h2 { font-size: 28px; }
+      .faq-question { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+<button class="menu-toggle" onclick="toggleMenu()">☰ Меню</button>
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <h1>Методическое руководство</h1>
+    <p>Электронная версия методички по цифровым инструментам для студентов.</p>
+    <nav class="nav">
+      <div class="nav-title">Основные разделы</div>
+      <a href="index.html">Главная</a>
+      <a href="introduction.html">Введение</a>
+      <a href="wordmacros.html">Макросы Word</a>
+      <a href="yandex.html">Яндекс Алиса Про</a>
+      <a href="qwen.html">Qwen</a>
+      <a href="vscode.html">Visual Studio Code</a>
+      <a href="glossary.html">Глоссарий</a>
+      <a href="mistakes.html">❌ Типичные ошибки</a>
+      <a href="quiz.html">📝 Тесты</a>
+      <a href="shortcuts.html">⌨️ Горячие клавиши</a>
+      <a href="faq.html" class="active">❓ FAQ</a>
+      <a href="conclusion.html">Заключение</a>
+    </nav>
+    <div style="margin-top: 30px; padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.1);">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <span class="theme-label" style="font-size: 14px;">🌙 Тёмная</span>
+        <label class="theme-switch">
+          <input type="checkbox" id="theme-toggle">
+          <span class="theme-slider"></span>
+        </label>
+        <span class="theme-label" style="font-size: 14px;">☀️ Светлая</span>
+      </div>
+      <p style="font-size: 11px; color: var(--muted); margin-top: 10px;">Небесно-голубая тема для светлого времени суток</p>
+    </div>
+  </aside>
+  <main class="content">
+    <section class="hero">
+      <h2>❓ Часто задаваемые вопросы</h2>
+      <p>Ответы на самые популярные вопросы студентов о методичке, инструментах и работе</p>
+    </section>
+
+    <section class="section">
+      <h2>💻 Общие вопросы</h2>
+      
+      <div class="faq-item">
+        <div class="faq-question">Как обстоит вопрос насчет работы на MacOS?</div>
+        <div class="faq-answer">✅ Все инструменты в методичке (VS Code, Qwen, Git, AI Tunnel) работают на MacOS. Отличия только в горячих клавишах: вместо Ctrl используйте ⌘ Cmd. Раздел с горячими клавишами содержит обе раскладки. Единственное исключение — макросы Word в полной мере работают только в версии Word для Windows (в MacOS VBA поддерживается, но некоторые функции могут отличаться).</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Почему именно Qwen, а не какой-нибудь другой агент?</div>
+        <div class="faq-answer">✅ Qwen выбран как бесплатный, доступный в РФ без VPN и хорошо понимающий русскоязычные академические тексты. Аналоги можно использовать любые (ChatGPT, Claude, DeepSeek) — принципы работы те же. Методичка не привязана жёстко к Qwen.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Можно ли работать с телефона или планшета?</div>
+        <div class="faq-answer">✅ Сайт методички адаптирован под мобильные устройства. VS Code имеет веб-версию (vscode.dev), но полноценная работа с расширениями возможна только на компьютере. Для ознакомления с теорией телефон подойдёт, для практики — лучше использовать компьютер.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Можно ли использовать методичку без доступа к интернету?</div>
+        <div class="faq-answer">✅ Да, на главной странице есть кнопка «Скачать PDF-версию методички». Вы можете сохранить PDF на устройство и пользоваться офлайн. Для работы с нейросетями и AI Tunnel интернет всё же потребуется.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Будут ли добавляться новые разделы на сайт?</div>
+        <div class="faq-answer">✅ Да, методичка постоянно дополняется. Следите за обновлениями на главной странице. Планируются разделы по работе с базами данных, продвинутым техникам промптинга и интеграции с другими ИИ-сервисами.</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>📝 Макросы Word</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">Почему вы не используете более современные альтернативы макросам, например, Office Scripts?</div>
+        <div class="faq-answer">✅ Office Scripts работают только в веб-версии Word и требуют платной подписки Microsoft 365. Макросы VBA бесплатны, работают в десктопной версии Word и более универсальны для учебных заведений.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Автор сам пользуется этими макросами в реальной жизни или это чисто учебный проект?</div>
+        <div class="faq-answer">✅ Автор регулярно использует макросы для автоматизации отчётов, оформления таблиц и содержания. Примеры в методичке — из реальной практики, а не выдуманные.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Можно ли использовать данные макросы для Word на MacOS?</div>
+        <div class="faq-answer">✅ В MacOS версии Word поддержка VBA есть, но некоторые функции (например, работа с ActiveDocument) могут отличаться. Рекомендуем тестировать макросы на вашей версии. Большинство базовых макросов (оформление таблиц, шрифтов) работают корректно.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Что делать, если при запуске макроса вылезает ошибка «Sub не определён»?</div>
+        <div class="faq-answer">✅ Ошибка означает, что Word не может найти макрос с таким именем. Проверьте: 1) правильное ли имя макроса (без опечаток), 2) сохранён ли документ в формате .docm, 3) вставлен ли макрос в правильный модуль (Module, а не ThisDocument). Подробнее — раздел «Типичные ошибки».</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>☁️ Яндекс Алиса Про</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">Можно ли в Яндекс Алису Про загружать файлы не по одному, а целой папкой?</div>
+        <div class="faq-answer">✅ Нет, по умолчанию сервис позволяет загружать только файлы по одному. Для массовой загрузки используйте архивацию: упакуйте папку в ZIP и загрузите архив, затем распакуйте в проекте.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Можно ли в Алису Про загружать не только текст, но и аудиолекции?</div>
+        <div class="faq-answer">✅ Да, сервис поддерживает аудиофайлы (MP3, WAV). Их можно прослушивать прямо в облаке и добавлять заметки. Автоматическая расшифровка речи пока не поддерживается.</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>🤖 Qwen и нейросети</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">Как быстро проверить, правильно ли я настроил инструмент, не дочитывая главу до конца?</div>
+        <div class="faq-answer">✅ Напишите простой запрос: «Привет, как дела?» или «Расскажи кратко о методе наименьших квадратов». Если нейросеть отвечает — всё работает.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Как ведет себя Qwen при работе с юридическими текстами? Не ошибается ли? Даёт ли свежие и действующие в РФ документы?</div>
+        <div class="faq-answer">⚠️ Qwen — не юридический сервис. Она может давать устаревшую или неточную информацию. Для проверки актуальности законов используйте КонсультантПлюс, Гарант или официальные источники. Нейросеть — помощник для черновиков, но не замена юристу.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Можно ли сгенерировать через Qwen не HTML, а готовую презентацию в формате PPTX?</div>
+        <div class="faq-answer">✅ Qwen не умеет создавать бинарные файлы .pptx напрямую. Однако она может сгенерировать HTML-презентацию (работает в браузере) или текст, который вы скопируете в PowerPoint. Для автоматического создания PPTX используйте специализированные инструменты.</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>💻 VS Code и расширения</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">В чём заключается преимущество работы с VS Code перед обычной работой с нейросетями на сайтах в открытом доступе?</div>
+        <div class="faq-answer">✅ VS Code позволяет нейросети работать напрямую с вашими файлами: создавать, редактировать, анализировать документы в проекте. На сайтах вы ограничены чатом и копированием текста. В VS Code агенты могут выполнять действия (создать файл, изменить код, структурировать папки).</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Нужно ли обновлять расширения в VS Code?</div>
+        <div class="faq-answer">✅ Да, рекомендуется регулярно обновлять расширения (в разделе Extensions → ... → Update All). Обновления содержат исправления ошибок, новые функции и улучшенную совместимость с версиями моделей.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Как понять, на каком этапе совершена ошибка, если не получен нужный результат?</div>
+        <div class="faq-answer">✅ Используйте пошаговую отладку: 1) проверьте интернет и API-ключ, 2) посмотрите консоль ошибок (F12 → Console), 3) попробуйте выполнить малый запрос для проверки, 4) перезагрузите окно VS Code (Ctrl+Shift+P → Reload Window).</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>🔧 AI Tunnel и Cline</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">Можно ли использовать один API-ключ AI Tunnel одновременно в Cline и в другом приложении?</div>
+        <div class="faq-answer">✅ Да, один ключ можно использовать в нескольких приложениях параллельно. Средства списываются с одного баланса. Для разных проектов можно создать отдельные ключи (в личном кабинете AI Tunnel).</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Как часто нужно пересоздавать API-ключ в AI Tunnel для безопасности?</div>
+        <div class="faq-answer">✅ Рекомендуется пересоздавать ключ каждые 2–3 месяца или если он скомпрометирован (например, случайно опубликован в открытом доступе). В личном кабинете можно отозвать старый ключ и создать новый.</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>📁 Агенты и AGENTS.md</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">Как понять, что файл AGENTS.md действительно загрузился в память агента?</div>
+        <div class="faq-answer">✅ Напишите в чат: «Какие правила ты видишь в этом проекте?» или «Расскажи, что написано в AGENTS.md». Агент должен перечислить инструкции из файла.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Какие функции являются обязательными, а какие дополнительными?</div>
+        <div class="faq-answer">✅ <strong>Обязательные:</strong> открытие папки в VS Code, установка расширений, базовые промты. <strong>Дополнительные:</strong> AI Tunnel, Cline, AGENTS.md, HTML-презентации — для углублённой работы. Освоение обязательного набора уже повысит эффективность.</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>⚠️ Ошибки и производительность</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">Что делать, если на экране не появляется то, что представлено на скриншоте, или описано при шаге?</div>
+        <div class="faq-answer">✅ 1) Проверьте версию программы (обновите, если старая). 2) Перезагрузите VS Code. 3) Убедитесь, что вы на том же этапе. 4) Проверьте настройки (расширения, тему, шрифты). 5) Обратитесь в раздел «Возможные проблемы» или задайте вопрос через форму обратной связи.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">Есть ли рекомендации по скорости и производительности?</div>
+        <div class="faq-answer">✅ Для VS Code: отключите ненужные расширения, используйте рабочую папку небольшого размера, регулярно обновляйте редактор. Для нейросетей: ответ зависит от выбранной модели и интернета. Режим «Быстрый» работает быстрее, но даёт менее точный результат.</div>
+      </div>
+    </section>
+
+    <div class="note">
+      💡 <strong>Не нашли свой вопрос?</strong> Напишите нам через форму обратной связи на странице «Заключение». Ваш вопрос будет добавлен в FAQ с ответом.
+    </div>
+
+    <div class="footer">
+      © 2026 Методическое руководство для студентов
+    </div>
+  </main>
+</div>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+  document.querySelectorAll('.nav a').forEach(link => {
+    link.addEventListener('click', function() {
+      if (window.innerWidth <= 980) {
+        document.getElementById('sidebar').classList.remove('open');
+      }
+    });
+  });
+
+  // Аккордеон для FAQ
+  document.querySelectorAll('.faq-question').forEach(question => {
+    question.addEventListener('click', () => {
+      const item = question.parentElement;
+      item.classList.toggle('open');
+    });
+  });
+
+  // Переключение темы
+  const themeToggle = document.getElementById('theme-toggle');
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'light') {
+    document.body.classList.add('light-theme');
+    if (themeToggle) themeToggle.checked = true;
+  }
+  if (themeToggle) {
+    themeToggle.addEventListener('change', function() {
+      if (this.checked) {
+        document.body.classList.add('light-theme');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.body.classList.remove('light-theme');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+  }
+</script>
+
+<style>
+  /* Переключатель темы */
+  .theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 54px;
+    height: 28px;
+  }
+  .theme-switch input { opacity: 0; width: 0; height: 0; }
+  .theme-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #3a6bd0;
+    transition: 0.3s;
+    border-radius: 28px;
+  }
+  .theme-slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+  }
+  input:checked + .theme-slider { background-color: #f1c40f; }
+  input:checked + .theme-slider:before { transform: translateX(26px); }
+  .theme-label { font-size: 14px; }
+
+  /* Светлая тема */
+  body.light-theme {
+    background: linear-gradient(135deg, #c8e8ff 0%, #b0dcff 100%);
+    color: #1a2a3a;
+  }
+  body.light-theme .sidebar {
+    background: rgba(255,255,255,0.96);
+    border-right-color: #a0c8e8;
+  }
+  body.light-theme .sidebar h1,
+  body.light-theme .sidebar p,
+  body.light-theme .nav a {
+    color: #1a3a5c;
+  }
+  body.light-theme .nav a:hover,
+  body.light-theme .nav a.active {
+    background: rgba(74,126,207,0.15);
+  }
+  body.light-theme .section {
+    background: rgba(230,245,255,0.95);
+    border-color: #9dc4e5;
+  }
+  body.light-theme .section h2 {
+    color: #1a4a7a;
+  }
+  body.light-theme .faq-item {
+    background: rgba(255,255,255,0.9);
+    border-color: #aad0f0;
+  }
+  body.light-theme .faq-question {
+    color: #1a4a7a;
+  }
+  body.light-theme .faq-answer {
+    color: #2a4058;
+  }
+  body.light-theme .hero {
+    background: linear-gradient(135deg, rgba(74,126,207,0.15), rgba(106,92,240,0.1));
+    border-color: #9dc4e5;
+  }
+  body.light-theme .hero h2,
+  body.light-theme .hero p {
+    color: #1a4a7a;
+  }
+  body.light-theme .note {
+    background: rgba(74,126,207,0.12);
+    border-left-color: #4a7ecf;
+    color: #1a4a7a;
+  }
+  body.light-theme .theme-label {
+    color: #1a3a5c;
+  }
+</style>
+</body>
+</html>
