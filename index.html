@@ -1291,13 +1291,76 @@ body.light-theme .nav-page-btn:hover {
 </section>
 <!-- Кнопки навигации между страницами -->
 <div class="page-navigation" style="display: flex; justify-content: space-between; align-items: center; gap: 20px; margin: 40px 0 30px; flex-wrap: wrap;">
-  <a href="#" id="prev-page" class="nav-page-btn" style="background: rgba(255,255,255,0.08); border: 1px solid var(--border); border-radius: 30px; padding: 10px 20px; text-decoration: none; color: var(--text); font-weight: bold; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px;">
+  <button id="prev-page" class="nav-page-btn" style="background: rgba(255,255,255,0.08); border: 1px solid var(--border); border-radius: 30px; padding: 10px 20px; cursor: pointer; font-family: inherit; font-size: inherit; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; color: var(--text);">
     ← Предыдущая страница
-  </a>
-  <a href="#" id="next-page" class="nav-page-btn" style="background: rgba(255,255,255,0.08); border: 1px solid var(--border); border-radius: 30px; padding: 10px 20px; text-decoration: none; color: var(--text); font-weight: bold; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px;">
+  </button>
+  <button id="next-page" class="nav-page-btn" style="background: rgba(255,255,255,0.08); border: 1px solid var(--border); border-radius: 30px; padding: 10px 20px; cursor: pointer; font-family: inherit; font-size: inherit; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; color: var(--text);">
     Следующая страница →
-  </a>
+  </button>
 </div>
+
+<script>
+  // Порядок страниц методички (строго по меню)
+  const pages = [
+    "index.html",           // 1. Главная
+    "introduction.html",    // 2. Введение
+    "glossary.html",        // 3. Глоссарий
+    "shortcuts.html",       // 4. Горячие клавиши
+    "wordmacros.html",      // 5. Макросы Word
+    "yandex.html",          // 6. Яндекс Алиса Про
+    "qwen.html",            // 7. Qwen
+    "vscode.html",          // 8. Visual Studio Code
+    "conclusion.html",      // 9. Заключение
+    "faq.html"              // 10. FAQ
+  ];
+  
+  const currentPage = window.location.pathname.split('/').pop();
+  const currentIndex = pages.indexOf(currentPage);
+  
+  const prevBtn = document.getElementById('prev-page');
+  const nextBtn = document.getElementById('next-page');
+  
+  if (prevBtn) {
+    if (currentIndex > 0) {
+      const newPrevBtn = prevBtn.cloneNode(true);
+      prevBtn.parentNode.replaceChild(newPrevBtn, prevBtn);
+      newPrevBtn.addEventListener('click', function() {
+        window.location.href = pages[currentIndex - 1];
+      });
+    } else {
+      prevBtn.style.opacity = '0.5';
+      prevBtn.style.cursor = 'default';
+      prevBtn.disabled = true;
+    }
+  }
+  
+  if (nextBtn) {
+    if (currentIndex < pages.length - 1 && currentIndex !== -1) {
+      const newNextBtn = nextBtn.cloneNode(true);
+      nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
+      newNextBtn.addEventListener('click', function() {
+        window.location.href = pages[currentIndex + 1];
+      });
+    } else {
+      nextBtn.style.opacity = '0.5';
+      nextBtn.style.cursor = 'default';
+      nextBtn.disabled = true;
+    }
+  }
+</script>
+
+<style>
+  /* Стили для кнопок в светлой теме */
+  body.light-theme .nav-page-btn {
+    background: rgba(74, 126, 207, 0.1) !important;
+    border-color: #aad0f0 !important;
+    color: #1a4a7a !important;
+  }
+  body.light-theme .nav-page-btn:hover:not(:disabled) {
+    background: #4a7ecf !important;
+    color: white !important;
+  }
+</style>
     <div class="footer">
       © 2026 Методическое руководство для студентов
     </div>
@@ -1689,58 +1752,6 @@ body.light-theme .nav-page-btn:hover {
         localStorage.setItem('theme', 'dark');
       }
     });
-  }
-   <!-- Кнопки навигации между страницами -->
-<div class="page-navigation" style="display: flex; justify-content: space-between; align-items: center; gap: 20px; margin: 40px 0 30px; flex-wrap: wrap;">
-  <a href="#" id="prev-page" class="nav-page-btn" style="background: rgba(255,255,255,0.08); border: 1px solid var(--border); border-radius: 30px; padding: 10px 20px; text-decoration: none; color: var(--text); font-weight: bold; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px;">
-    ← Предыдущая страница
-  </a>
-  <a href="#" id="next-page" class="nav-page-btn" style="background: rgba(255,255,255,0.08); border: 1px solid var(--border); border-radius: 30px; padding: 10px 20px; text-decoration: none; color: var(--text); font-weight: bold; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px;">
-    Следующая страница →
-  </a>
-</div>
-
-<script>
-  // Порядок страниц методички (должен быть одинаков на всех страницах)
-  const pages = [
-    "index.html",
-    "introduction.html",
-    "glossary.html",
-    "shortcuts.html",
-    "wordmacros.html",
-    "yandex.html",
-    "qwen.html",
-    "vscode.html",
-    "conclusion.html",
-    "faq.html"
-  ];
-  
-  const currentPage = window.location.pathname.split('/').pop();
-  const currentIndex = pages.indexOf(currentPage);
-  
-  const prevLink = document.getElementById('prev-page');
-  const nextLink = document.getElementById('next-page');
-  
-  if (prevLink) {
-    if (currentIndex > 0) {
-      prevLink.href = pages[currentIndex - 1];
-    } else {
-      prevLink.style.opacity = '0.5';
-      prevLink.style.pointerEvents = 'none';
-      prevLink.style.cursor = 'default';
-      prevLink.removeAttribute('href');
-    }
-  }
-  
-  if (nextLink) {
-    if (currentIndex < pages.length - 1 && currentIndex !== -1) {
-      nextLink.href = pages[currentIndex + 1];
-    } else {
-      nextLink.style.opacity = '0.5';
-      nextLink.style.pointerEvents = 'none';
-      nextLink.style.cursor = 'default';
-      nextLink.removeAttribute('href');
-    }
   }
 
    // Переключение темы
