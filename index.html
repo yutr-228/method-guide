@@ -1805,15 +1805,13 @@ body.light-theme .theme-switch input:checked + .theme-slider {
 </script>
 
 
-   // Переключение темы
+  <script>
   const themeToggle = document.getElementById('theme-toggle');
   const savedTheme = localStorage.getItem('theme');
-  
   if (savedTheme === 'light') {
     document.body.classList.add('light-theme');
     if (themeToggle) themeToggle.checked = true;
   }
-  
   if (themeToggle) {
     themeToggle.addEventListener('change', function() {
       if (this.checked) {
@@ -1825,6 +1823,6 @@ body.light-theme .theme-switch input:checked + .theme-slider {
       }
     });
   }
-<script>
+</script>
 </body>
 </html>
