@@ -157,6 +157,52 @@
       .hero h2 { font-size: 28px; }
       .faq-question { font-size: 16px; }
     }
+    /* Плавающая кнопка сброса прогресса */
+#reset-progress-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10001;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  border-radius: 40px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 13px;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+#reset-progress-btn:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: scale(1.02);
+}
+
+/* Светлая тема */
+body.light-theme #reset-progress-btn {
+  background: rgba(74, 126, 207, 0.9);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+body.light-theme #reset-progress-btn:hover {
+  background: #4a7ecf;
+}
+
+/* Мобильная версия */
+@media (max-width: 480px) {
+  #reset-progress-btn {
+    padding: 6px 14px;
+    font-size: 11px;
+    bottom: 15px;
+    right: 15px;
+  }
+}
   </style>
 </head>
 <body>
@@ -169,16 +215,14 @@
       <div class="nav-title">Основные разделы</div>
       <a href="index.html">Главная</a>
       <a href="introduction.html">Введение</a>
+      <a href="glossary.html">Глоссарий</a>
+      <a href="shortcuts.html">Горячие клавиши</a>
       <a href="wordmacros.html">Макросы Word</a>
       <a href="yandex.html">Яндекс Алиса Про</a>
       <a href="qwen.html">Qwen</a>
       <a href="vscode.html">Visual Studio Code</a>
-      <a href="glossary.html">Глоссарий</a>
-      <a href="mistakes.html">❌ Типичные ошибки</a>
-      <a href="quiz.html">📝 Тесты</a>
-      <a href="shortcuts.html">⌨️ Горячие клавиши</a>
-      <a href="faq.html" class="active">❓ FAQ</a>
       <a href="conclusion.html">Заключение</a>
+      <a href="faq.html" class="active">FAQ</a>
     </nav>
     <div style="margin-top: 30px; padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.1);">
       <div style="display: flex; align-items: center; justify-content: space-between;">
@@ -482,5 +526,47 @@
     color: #1a3a5c;
   }
 </style>
+  <!-- Плавающая кнопка сброса прогресса -->
+<div id="reset-progress-btn" style="position: fixed; bottom: 20px; right: 20px; z-index: 10001; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); border-radius: 40px; padding: 10px 20px; cursor: pointer; font-size: 13px; color: white; border: 1px solid rgba(255,255,255,0.2); transition: 0.2s; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+  🔄 Сбросить прогресс
+</div>
+
+<script>
+  (function() {
+    const resetBtn = document.getElementById('reset-progress-btn');
+    if (!resetBtn) return;
+    
+    resetBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (confirm('Вы уверены, что хотите сбросить прогресс изучения? Все достижения будут удалены.')) {
+        localStorage.removeItem('method_completed_pages');
+        localStorage.removeItem('method_progress_shown');
+        localStorage.removeItem('method_visited_pages');
+        
+        const progressBar = document.getElementById('progress-bar');
+        if (progressBar) progressBar.style.width = '0%';
+        
+        const notification = document.createElement('div');
+        notification.textContent = '🗑️ Прогресс сброшен. Начни изучение заново!';
+        notification.style.cssText = `
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          background: linear-gradient(135deg, #f59e0b, #ef4444);
+          color: white;
+          padding: 12px 20px;
+          border-radius: 30px;
+          font-size: 14px;
+          font-weight: bold;
+          z-index: 10002;
+          box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        `;
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
+        setTimeout(() => location.reload(), 1500);
+      }
+    });
+  })();
+</script>
 </body>
 </html>
